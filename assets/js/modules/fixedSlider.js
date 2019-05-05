@@ -1,8 +1,8 @@
 export function fixedSlider() {
 
+    let section = $(".slider-section");
     let slider = $(".fixed-slider");
-    let scrollContainer = $(".slides-wrapper");
-    let pusher = $(".pusher");
+    let spacer = $(".spacer");
 
 
     let pusherOffset = 0;
@@ -15,32 +15,27 @@ export function fixedSlider() {
     let timeToMove = 0;
 
     $(window).resize(function () {
-        calcSlider(slider, pusher, scrollContainer);
+        calcSlider(slider, spacer);
     });
 
-    calcSlider(slider, pusher, scrollContainer);
+    calcSlider(slider, spacer);
 
-    function calcSlider(slider, pusher, scrollContainer) {
-        pusherOffset = $(pusher).offset().top;
+    function calcSlider(slider, spacer) {
 
-        sliderHeight = $(slider).innerHeight();
+        // pusherOffset = $(pusher).offset().top;
+        // sliderHeight = $(slider).innerHeight();
+        // scrollWidth = $(scrollContainer).innerWidth();
+        // neededOffset = (window.innerHeight - sliderHeight) / 2;
+        // neededHeight = (pusherOffset - window.innerHeight) + neededOffset;
+        // neededScroll = pusherOffset + scrollWidth;
+        // pusher.css({"padding-bottom" : scrollWidth, "height" : sliderHeight, "min-height" : sliderHeight});
+        // pusherHeight = $(pusher).innerHeight();
+        // timeToMove = (pusherOffset + pusherHeight) - (window.innerHeight);
 
-        scrollWidth = $(scrollContainer).innerWidth();
 
-        neededOffset = (window.innerHeight - sliderHeight) / 2;
-
-        neededHeight = (pusherOffset - window.innerHeight) + neededOffset;
-
-        neededScroll = pusherOffset + scrollWidth;
-
-        pusher.css({"padding-bottom" : scrollWidth, "height" : sliderHeight, "min-height" : sliderHeight});
-
-        pusherHeight = $(pusher).innerHeight();
-
-        timeToMove = (pusherOffset + pusherHeight) - (window.innerHeight);
     }
 
-    $(window).on("scroll", function () {
+   /* $(window).on("scroll", function () {
         let windowTop = $(this).scrollTop();
 
         $(".slide").css("transform", "translate3d(" + (-1 * (windowTop - pusherOffset+window.innerWidth)) + "px, 0, 0)");
@@ -59,11 +54,16 @@ export function fixedSlider() {
             slider.css({"top": "auto", "position" : "relative"});
             slider.removeClass("on-view");
         }
-    });
+    });*/
+
+
+
+
+
+
+
 
     //(1-x)*a + x*a
-
-
     //(1-x)*a + x*b
 
     // x=0 ==> a
