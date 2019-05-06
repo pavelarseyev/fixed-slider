@@ -9594,9 +9594,6 @@ function fixedSlider() {
     var timeToMove = 0;
     var padding = 0;
 
-    calcSlider(section, slider, spacer);
-    setSlider();
-
     function calcSlider(section, slider, spacer) {
         var slides = $(slider).find(".slide");
         var scrollSize = 0;
@@ -9613,7 +9610,7 @@ function fixedSlider() {
 
         startPoint = sectionOffsetTop - neededOffset;
 
-        padding = scrollSize - sliderHeight - window.innerWidth * 1.8;
+        padding = scrollSize - sliderHeight - window.innerWidth;
 
         $(spacer).css({ "padding-bottom": padding, "height": sliderHeight, "min-height": sliderHeight });
     }
@@ -9624,24 +9621,27 @@ function fixedSlider() {
         spacerHeight = $(spacer).innerHeight();
         timeToMove = sectionOffsetTop + spacerHeight - (sliderHeight + neededOffset);
 
-        $(".slide").css("transform", "translate3d(" + -1 * (windowTop - section[0].getBoundingClientRect().y) + "px, 0, 0)");
-
-        if (windowTop > startPoint && windowTop < timeToMove) {
-            slider.addClass("on-view").css({ "top": neededOffset, "position": "fixed" });
-            spacer.css({ "padding-bottom": 0, "padding-top": padding });
-        }
-
-        if (windowTop >= timeToMove) {
-            slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
-        }
+        console.log(windowTop, startPoint, timeToMove);
+        $(".slide").css("transform", "translate3d(" + -1 * (windowTop - (section[0].getBoundingClientRect().y + neededOffset)) + "px, 0, 0)");
 
         if (windowTop < startPoint) {
             slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
             spacer.css({ "padding-top": 0, "padding-bottom": padding });
+        } else {
+            spacer.css({ "padding-bottom": 0, "padding-top": padding });
+
+            if (windowTop < timeToMove) {
+                slider.addClass("on-view").css({ "top": neededOffset, "position": "fixed" });
+            } else {
+                slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
+            }
         }
     }
 
-    $(window).on("resize load", function () {
+    calcSlider(section, slider, spacer);
+    setSlider();
+
+    $(window).on("ready resize", function () {
         calcSlider(section, slider, spacer);
         setSlider();
     });

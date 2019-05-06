@@ -25,16 +25,18 @@
   display: flex;
   background-color: #367aff;
   padding: 15px 100vw;
+  box-sizing: border-box;
 
   .slide{
+    box-sizing: border-box;
     font-size: 18px;
     line-height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 370px;
-    min-height: 370px;
+    width: calc(25% - 30px);
     flex-shrink: 0;
+    min-height: 370px;
     border: 1px solid tomato;
     margin-right: 30px;
     transform: translate3d(0, 0, 0);
