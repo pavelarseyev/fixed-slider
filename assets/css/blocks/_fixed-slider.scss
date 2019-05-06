@@ -40,6 +40,14 @@
     border: 1px solid tomato;
     margin-right: 30px;
     transform: translate3d(0, 0, 0);
+
+    /*&:nth-child(odd){
+      width: 200px;
+    }
+
+    &:nth-child(3n+2){
+      width: 340px;
+    }*/
   }
 
   //&::before{
@@ -54,14 +62,6 @@
   //  opacity: 0;
   //  transition: opacity 0.3s;
   //}
-
-  &.on-view{
-    position: fixed;
-    //&::before{
-    //  opacity: 1;
-    //  pointer-events: auto;
-    //}
-  }
 }
 
 
