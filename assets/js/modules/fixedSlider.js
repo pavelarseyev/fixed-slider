@@ -1,5 +1,4 @@
 export function fixedSlider() {
-    /*
         let section = $(".slider-section");
         let spacer = $(".spacer");
         let slider = $(".fixed-slider");
@@ -21,7 +20,7 @@ export function fixedSlider() {
             slidesOffset = window.innerHeight * 0.5;
 
             currentSlides.each( function () {
-                scrollSize += SuperSlider.outerWidth(true);
+                scrollSize += $(this).outerWidth(true);
             });
 
             sliderHeight = $(slider).innerHeight();
@@ -76,10 +75,11 @@ export function fixedSlider() {
 
         $(window).on("scroll", function () {
             setSlider();
-        });*/
+        });
 }
 
-export class SuperSlider {
+
+/*export class SuperSlider {
     constructor(spacer) {
         this.spacer = spacer;
         this.slider = this.spacer.querySelector(".fixed-slider");
@@ -150,13 +150,13 @@ export class SuperSlider {
         this.spacerHeight = this.spacer.offsetHeight + this.spacerPadding;
         this.endPoint = (this.spacerOffsetTop + this.spacerHeight) - (this.sliderHeight + this.neededOffsetFromTopOfScreen);
 
-        if(windowTop > (this.startPoint - this.slidesOffset)){
-           this.slides.forEach(item => {
-               item.style.transform = `translate3d(${((windowTop + this.slidesOffset) - this.startPoint) * -1}px, 0, 0)`;
-           });
+        if (windowTop > (this.startPoint - this.slidesOffset)) {
+            this.slides.forEach(item => {
+                item.style.transform = `translate3d(${((windowTop + this.slidesOffset) - this.startPoint) * -1}px, 0, 0)`;
+            });
         } else {
             this.slides.forEach(item => {
-                item.style.transform = "translate3d("+ 0 +"px, 0, 0)";
+                item.style.transform = "translate3d(" + 0 + "px, 0, 0)";
             });
         }
     };
@@ -169,6 +169,4 @@ export class SuperSlider {
 }
 
 
-let some = new SuperSlider(document.querySelector(".spacer"));
-
-console.log(some);
+*/

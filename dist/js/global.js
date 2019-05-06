@@ -9579,116 +9579,88 @@ var fwa = function fwa() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = fixedSlider;
-/* unused harmony export SuperSlider */
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = fixedSlider;
 function fixedSlider() {
-    /*
-        let section = $(".slider-section");
-        let spacer = $(".spacer");
-        let slider = $(".fixed-slider");
-        let slides = $(slider).find(".slide");
-          let startPoint = 0;
-        let sliderHeight = 0;
-        let spacerHeight = 0;
-        let sectionOffsetTop = 0;
-        let neededOffset = 0;
-        let timeToMove = 0;
-        let padding = 0;
-        let slidesOffset = 0;
-          function calcSlider(section, slider, spacer) {
-            let currentSlides = $(slider).find(".slide");
-            let scrollSize = 0;
-              slidesOffset = window.innerHeight * 0.5;
-              currentSlides.each( function () {
-                scrollSize += SuperSlider.outerWidth(true);
-            });
-              sliderHeight = $(slider).innerHeight();
-              sectionOffsetTop = $(section).offset().top;
-              neededOffset = (window.innerHeight - sliderHeight) / 2;
-              startPoint = sectionOffsetTop - neededOffset;
-              padding = scrollSize - slidesOffset;
-              $(spacer).css({"padding-bottom" : padding, "height" : sliderHeight, "min-height" : sliderHeight});
-        }
-          function setSlider(){
-            let windowTop = $(window).scrollTop();
-              spacerHeight = $(spacer).innerHeight();
-            timeToMove = (sectionOffsetTop + spacerHeight) - (sliderHeight + neededOffset);
-              if(windowTop > (startPoint - slidesOffset)){
-                slides.css("transform", "translate3d(" + (-1 * ((windowTop+slidesOffset) - startPoint)) + "px, 0, 0)");
-            } else {
-                slides.css("transform", "translate3d("+ 0 +"px, 0, 0)");
-            }
-              if (windowTop < startPoint) {
-                  slider.css({"top" : "auto", "position" : "relative"});
-                spacer.css({"padding-top" : 0, "padding-bottom" : padding});
-              } else {
-                  spacer.css({"padding-bottom" : 0, "padding-top" : padding});
-                  if (windowTop < timeToMove) {
-                    slider.css({"top": neededOffset, "position": "fixed"});
-                } else {
-                    slider.css({"top" : "auto", "position" : "relative"});
-                }
-            }
-        }
-          calcSlider(section, slider, spacer);
-        setSlider();
-          $(window).on("ready resize", function () {
-            calcSlider(section, slider, spacer);
-            setSlider();
+    var section = $(".slider-section");
+    var spacer = $(".spacer");
+    var slider = $(".fixed-slider");
+    var slides = $(slider).find(".slide");
+
+    var startPoint = 0;
+    var sliderHeight = 0;
+    var spacerHeight = 0;
+    var sectionOffsetTop = 0;
+    var neededOffset = 0;
+    var timeToMove = 0;
+    var padding = 0;
+    var slidesOffset = 0;
+
+    function calcSlider(section, slider, spacer) {
+        var currentSlides = $(slider).find(".slide");
+        var scrollSize = 0;
+
+        slidesOffset = window.innerHeight * 0.5;
+
+        currentSlides.each(function () {
+            scrollSize += $(this).outerWidth(true);
         });
-          $(window).on("scroll", function () {
-            setSlider();
-        });*/
+
+        sliderHeight = $(slider).innerHeight();
+
+        sectionOffsetTop = $(section).offset().top;
+
+        neededOffset = (window.innerHeight - sliderHeight) / 2;
+
+        startPoint = sectionOffsetTop - neededOffset;
+
+        padding = scrollSize - slidesOffset;
+
+        $(spacer).css({ "padding-bottom": padding, "height": sliderHeight, "min-height": sliderHeight });
+    }
+
+    function setSlider() {
+        var windowTop = $(window).scrollTop();
+
+        spacerHeight = $(spacer).innerHeight();
+        timeToMove = sectionOffsetTop + spacerHeight - (sliderHeight + neededOffset);
+
+        if (windowTop > startPoint - slidesOffset) {
+            slides.css("transform", "translate3d(" + -1 * (windowTop + slidesOffset - startPoint) + "px, 0, 0)");
+        } else {
+            slides.css("transform", "translate3d(" + 0 + "px, 0, 0)");
+        }
+
+        if (windowTop < startPoint) {
+
+            slider.css({ "top": "auto", "position": "relative" });
+            spacer.css({ "padding-top": 0, "padding-bottom": padding });
+        } else {
+
+            spacer.css({ "padding-bottom": 0, "padding-top": padding });
+
+            if (windowTop < timeToMove) {
+                slider.css({ "top": neededOffset, "position": "fixed" });
+            } else {
+                slider.css({ "top": "auto", "position": "relative" });
+            }
+        }
+    }
+
+    calcSlider(section, slider, spacer);
+    setSlider();
+
+    $(window).on("ready resize", function () {
+        calcSlider(section, slider, spacer);
+        setSlider();
+    });
+
+    $(window).on("scroll", function () {
+        setSlider();
+    });
 }
 
-var SuperSlider = function () {
-    function SuperSlider(spacer) {
-        var _this = this;
-
-        _classCallCheck(this, SuperSlider);
-
-        this.calcSlider = function () {
-            _this.scrollSize = 0;
-            _this.neededOffsetFromTopOfScreen = (window.innerHeight - _this.sliderHeight) / 2;
-            _this.spacerOffsetTop = _this.spacer.getBoundingClientRect().top + pageYOffset;
-
-            _this.startPoint = _this.spacerOffsetTop - _this.neededOffsetFromTopOfScreen;
-
-            _this.slides.forEach(function (item) {
-                _this.scrollSize += _this.outerWidth(item);
-            });
-
-            _this.spacerPadding = _this.scrollSize - _this.slidesOffset;
-            _this.spacerHeight = _this.spacer.getBoundingClientRect().height + _this.spacerPadding;
-        };
-
-        this.setStartCss = function () {
-            _this.spacer.style.cssText = "\n            height: " + _this.sliderHeight + "px;\n            min-height: " + _this.sliderHeight + "px; \n            display: flex;\n            position: relative;\n            box-sizing: content-box;\n            padding-bottom: " + (pageYOffset < _this.startPoint ? _this.spacerPadding : 0) + "px;\n            padding-top: " + (pageYOffset >= _this.startPoint ? _this.spacerPadding : 0) + "px; \n        ";
-
-            _this.slider.style.cssText = "\n            position: " + (pageYOffset < _this.startPoint ? "relative" : pageYOffset < _this.endPoint ? "fixed" : "relative") + ";\n            top: " + (pageYOffset > _this.startPoint) + ";\n            display: flex;\n            padding-left: 100vw;\n            padding-right: 100vw;\n        ";
-        };
-
-        this.calcProperties = function () {
-            var windowTop = pageYOffset;
-
-            _this.spacerHeight = _this.spacer.offsetHeight + _this.spacerPadding;
-            _this.endPoint = _this.spacerOffsetTop + _this.spacerHeight - (_this.sliderHeight + _this.neededOffsetFromTopOfScreen);
-
-            if (windowTop > _this.startPoint - _this.slidesOffset) {
-                _this.slides.forEach(function (item) {
-                    item.style.transform = "translate3d(" + (windowTop + _this.slidesOffset - _this.startPoint) * -1 + "px, 0, 0)";
-                });
-            } else {
-                _this.slides.forEach(function (item) {
-                    item.style.transform = "translate3d(" + 0 + "px, 0, 0)";
-                });
-            }
-        };
-
+/*export class SuperSlider {
+    constructor(spacer) {
         this.spacer = spacer;
         this.slider = this.spacer.querySelector(".fixed-slider");
         this.slides = this.spacer.querySelectorAll(".fixed-slider .slide");
@@ -9706,34 +9678,85 @@ var SuperSlider = function () {
         this.init();
     }
 
-    _createClass(SuperSlider, [{
-        key: "outerWidth",
-        value: function outerWidth(el) {
-            var width = el.offsetWidth;
-            var style = getComputedStyle(el);
+    outerWidth(el) {
+        let width = el.offsetWidth;
+        let style = getComputedStyle(el);
 
-            width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+        width += parseInt(style.marginLeft) + parseInt(style.marginRight);
 
-            return width;
+        return width;
+    }
+
+    calcSlider = () => {
+        this.scrollSize = 0;
+        this.neededOffsetFromTopOfScreen = (window.innerHeight - this.sliderHeight) / 2;
+        this.spacerOffsetTop = this.spacer.getBoundingClientRect().top + pageYOffset;
+
+        this.startPoint = this.spacerOffsetTop - this.neededOffsetFromTopOfScreen;
+
+        this.slides.forEach((item) => {
+            this.scrollSize += this.outerWidth(item);
+        });
+
+        this.spacerPadding = (this.scrollSize - this.slidesOffset);
+        this.spacerHeight = this.spacer.getBoundingClientRect().height + this.spacerPadding;
+    };
+
+    //TODO: finish startCSS for slider. spacer finished;
+    setStartCss = () => {
+        this.spacer.style.cssText = `
+            height: ${this.sliderHeight}px;
+            min-height: ${this.sliderHeight}px; 
+            display: flex;
+            position: relative;
+            box-sizing: content-box;
+            padding-bottom: ${pageYOffset < this.startPoint ? this.spacerPadding : 0}px;
+            padding-top: ${pageYOffset >= this.startPoint ? this.spacerPadding : 0}px; 
+        `;
+
+
+        this.slider.style.cssText = `
+            position: ${(pageYOffset < this.startPoint) ? "relative" : (pageYOffset < this.endPoint) ? "fixed" : "relative"};
+            top: ${pageYOffset > this.startPoint};
+            display: flex;
+            padding-left: 100vw;
+            padding-right: 100vw;
+        `;
+    };
+
+    calcProperties = () => {
+        let windowTop = pageYOffset;
+
+        this.spacerHeight = this.spacer.offsetHeight + this.spacerPadding;
+        this.endPoint = (this.spacerOffsetTop + this.spacerHeight) - (this.sliderHeight + this.neededOffsetFromTopOfScreen);
+
+        if (windowTop > (this.startPoint - this.slidesOffset)) {
+            this.slides.forEach(item => {
+                item.style.transform = `translate3d(${((windowTop + this.slidesOffset) - this.startPoint) * -1}px, 0, 0)`;
+            });
+        } else {
+            this.slides.forEach(item => {
+                item.style.transform = "translate3d(" + 0 + "px, 0, 0)";
+            });
         }
+    };
 
-        //TODO: finish startCSS for slider. spacer finished;
+    init() {
+        this.calcSlider();
+        this.setStartCss();
+        this.calcProperties();
+    }
+}
 
-    }, {
-        key: "init",
-        value: function init() {
-            this.calcSlider();
-            this.setStartCss();
-            this.calcProperties();
-        }
-    }]);
 
-    return SuperSlider;
-}();
+*/
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(335)))
 
-var some = new SuperSlider(document.querySelector(".spacer"));
+/***/ }),
+/* 335 */
+/***/ (function(module, exports) {
 
-console.log(some);
+module.exports = jQuery;
 
 /***/ })
 /******/ ]);
