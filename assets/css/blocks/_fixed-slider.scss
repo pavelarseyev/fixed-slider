@@ -11,30 +11,29 @@
 .slider-section{
   position: relative;
   width: 100%;
-  z-index: 5;
+  overflow: hidden;
 }
 
+.spacer{
+  background-color: #ff7980;
+  display: flex;
+  position: relative;
+  box-sizing: content-box;
+}
 
 .fixed-slider{
-  min-height: 400px;
-
-  position: relative;
+  display: flex;
   background-color: #367aff;
-  height: 100%;
-  padding: 15px 100vw 15px;
-  overflow-x: hidden;
-  white-space: nowrap;
-  font-size: 0;
-  line-height: 0;
+  padding: 15px 100vw;
 
   .slide{
     font-size: 18px;
     line-height: 24px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 250px;
-    height: 100%;
+    width: 370px;
+    min-height: 370px;
     flex-shrink: 0;
     border: 1px solid tomato;
     margin-right: 30px;
@@ -54,17 +53,14 @@
   //  transition: opacity 0.3s;
   //}
 
-  //&.on-view{
-  //  &::before{
-  //    opacity: 1;
-  //    pointer-events: auto;
-  //  }
-  //}
+  &.on-view{
+    position: fixed;
+    //&::before{
+    //  opacity: 1;
+    //  pointer-events: auto;
+    //}
+  }
 }
 
-.spacer{
-  background-color: #ff7980;
-  box-sizing: content-box;
-}
 
 

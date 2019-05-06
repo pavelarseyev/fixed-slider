@@ -9586,50 +9586,69 @@ function fixedSlider() {
     var slider = $(".fixed-slider");
     var spacer = $(".spacer");
 
-    var pusherOffset = 0;
-    var pusherHeight = 0;
+    var startPoint = 0;
     var sliderHeight = 0;
-    var scrollWidth = 0;
+    var spacerHeight = 0;
+    var sectionOffsetTop = 0;
     var neededOffset = 0;
-    var neededHeight = 0;
-    var neededScroll = 0;
     var timeToMove = 0;
+    var padding = 0;
 
-    $(window).resize(function () {
-        calcSlider(slider, spacer);
+    calcSlider(section, slider, spacer);
+    setSlider();
+
+    function calcSlider(section, slider, spacer) {
+        var slides = $(slider).find(".slide");
+        var scrollSize = 0;
+
+        slides.each(function () {
+            scrollSize += $(this).outerWidth(true);
+        });
+
+        sliderHeight = $(slider).innerHeight();
+
+        sectionOffsetTop = $(section).offset().top;
+
+        neededOffset = (window.innerHeight - sliderHeight) / 2;
+
+        startPoint = sectionOffsetTop - neededOffset;
+
+        padding = scrollSize - sliderHeight - window.innerWidth * 1.8;
+
+        $(spacer).css({ "padding-bottom": padding, "height": sliderHeight, "min-height": sliderHeight });
+    }
+
+    function setSlider() {
+        var windowTop = $(window).scrollTop();
+
+        spacerHeight = $(spacer).innerHeight();
+        timeToMove = sectionOffsetTop + spacerHeight - (sliderHeight + neededOffset);
+
+        $(".slide").css("transform", "translate3d(" + -1 * (windowTop - section[0].getBoundingClientRect().y) + "px, 0, 0)");
+
+        if (windowTop > startPoint && windowTop < timeToMove) {
+            slider.addClass("on-view").css({ "top": neededOffset, "position": "fixed" });
+            spacer.css({ "padding-bottom": 0, "padding-top": padding });
+        }
+
+        if (windowTop >= timeToMove) {
+            slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
+        }
+
+        if (windowTop < startPoint) {
+            slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
+            spacer.css({ "padding-top": 0, "padding-bottom": padding });
+        }
+    }
+
+    $(window).on("resize load", function () {
+        calcSlider(section, slider, spacer);
+        setSlider();
     });
 
-    calcSlider(slider, spacer);
-
-    function calcSlider(slider, spacer) {}
-
-    // pusherOffset = $(pusher).offset().top;
-    // sliderHeight = $(slider).innerHeight();
-    // scrollWidth = $(scrollContainer).innerWidth();
-    // neededOffset = (window.innerHeight - sliderHeight) / 2;
-    // neededHeight = (pusherOffset - window.innerHeight) + neededOffset;
-    // neededScroll = pusherOffset + scrollWidth;
-    // pusher.css({"padding-bottom" : scrollWidth, "height" : sliderHeight, "min-height" : sliderHeight});
-    // pusherHeight = $(pusher).innerHeight();
-    // timeToMove = (pusherOffset + pusherHeight) - (window.innerHeight);
-
-
-    /* $(window).on("scroll", function () {
-         let windowTop = $(this).scrollTop();
-           $(".slide").css("transform", "translate3d(" + (-1 * (windowTop - pusherOffset+window.innerWidth)) + "px, 0, 0)");
-           if (windowTop > neededHeight && windowTop < timeToMove) {
-             slider.addClass("on-view");
-             $(".on-view").css({"top" : neededOffset, "position" : "fixed"});
-         }
-           if(windowTop >= timeToMove) {
-             slider.removeClass("on-view");
-             slider.css({"top" : neededOffset - (windowTop-timeToMove)});
-         }
-           if(windowTop < neededHeight){
-             slider.css({"top": "auto", "position" : "relative"});
-             slider.removeClass("on-view");
-         }
-     });*/
+    $(window).on("scroll", function () {
+        setSlider();
+    });
 
     //(1-x)*a + x*a
     //(1-x)*a + x*b
@@ -9638,14 +9657,6 @@ function fixedSlider() {
     // x=1 ==> b
 
     //a ==> b
-
-    // $(".slides-wrapper").on("scroll", function (e) {
-    //     console.log(e);
-    // });
-
-    // $(".fixed-slider").on("click", function(e){
-    //     console.log(e);
-    // });
 }
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(335)))
 

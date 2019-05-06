@@ -4,63 +4,69 @@ export function fixedSlider() {
     let slider = $(".fixed-slider");
     let spacer = $(".spacer");
 
-
-    let pusherOffset = 0;
-    let pusherHeight = 0;
+    let startPoint = 0;
     let sliderHeight = 0;
-    let scrollWidth = 0;
+    let spacerHeight = 0;
+    let sectionOffsetTop = 0;
     let neededOffset = 0;
-    let neededHeight = 0;
-    let neededScroll = 0;
     let timeToMove = 0;
+    let padding = 0;
 
-    $(window).resize(function () {
-        calcSlider(slider, spacer);
-    });
+    calcSlider(section, slider, spacer);
+    setSlider();
 
-    calcSlider(slider, spacer);
+    function calcSlider(section, slider, spacer) {
+        let slides = $(slider).find(".slide");
+        let scrollSize = 0;
 
-    function calcSlider(slider, spacer) {
+        slides.each( function () {
+            scrollSize += $(this).outerWidth(true);
+        });
 
-        // pusherOffset = $(pusher).offset().top;
-        // sliderHeight = $(slider).innerHeight();
-        // scrollWidth = $(scrollContainer).innerWidth();
-        // neededOffset = (window.innerHeight - sliderHeight) / 2;
-        // neededHeight = (pusherOffset - window.innerHeight) + neededOffset;
-        // neededScroll = pusherOffset + scrollWidth;
-        // pusher.css({"padding-bottom" : scrollWidth, "height" : sliderHeight, "min-height" : sliderHeight});
-        // pusherHeight = $(pusher).innerHeight();
-        // timeToMove = (pusherOffset + pusherHeight) - (window.innerHeight);
+        sliderHeight = $(slider).innerHeight();
 
+        sectionOffsetTop = $(section).offset().top;
 
+        neededOffset = (window.innerHeight - sliderHeight) / 2;
+
+        startPoint = sectionOffsetTop - neededOffset;
+
+        padding = scrollSize - sliderHeight - (window.innerWidth * 1.8);
+
+        $(spacer).css({"padding-bottom" : padding, "height" : sliderHeight, "min-height" : sliderHeight});
     }
 
-   /* $(window).on("scroll", function () {
-        let windowTop = $(this).scrollTop();
+    function setSlider(){
+        let windowTop = $(window).scrollTop();
 
-        $(".slide").css("transform", "translate3d(" + (-1 * (windowTop - pusherOffset+window.innerWidth)) + "px, 0, 0)");
+        spacerHeight = $(spacer).innerHeight();
+        timeToMove = (sectionOffsetTop + spacerHeight) - (sliderHeight + neededOffset);
 
-        if (windowTop > neededHeight && windowTop < timeToMove) {
-            slider.addClass("on-view");
-            $(".on-view").css({"top" : neededOffset, "position" : "fixed"});
+        $(".slide").css("transform", "translate3d(" + (-1 * (windowTop - section[0].getBoundingClientRect().y)) + "px, 0, 0)");
+
+        if (windowTop > startPoint && windowTop < timeToMove) {
+            slider.addClass("on-view").css({"top": neededOffset, "position": "fixed"});
+            spacer.css({"padding-bottom" : 0, "padding-top" : padding});
         }
 
-        if(windowTop >= timeToMove) {
-            slider.removeClass("on-view");
-            slider.css({"top" : neededOffset - (windowTop-timeToMove)});
+        if (windowTop >= timeToMove) {
+            slider.removeClass("on-view").css({"top" : "auto", "position" : "relative"});
         }
 
-        if(windowTop < neededHeight){
-            slider.css({"top": "auto", "position" : "relative"});
-            slider.removeClass("on-view");
+        if (windowTop < startPoint) {
+            slider.removeClass("on-view").css({"top" : "auto", "position" : "relative"});
+            spacer.css({"padding-top" : 0, "padding-bottom" : padding});
         }
-    });*/
+    }
 
+    $(window).on("resize load", function () {
+        calcSlider(section, slider, spacer);
+        setSlider();
+    });
 
-
-
-
-
+    $(window).on("scroll", function () {
+        setSlider();
+    });
 
 
     //(1-x)*a + x*a
@@ -71,11 +77,4 @@ export function fixedSlider() {
 
     //a ==> b
 
-    // $(".slides-wrapper").on("scroll", function (e) {
-    //     console.log(e);
-    // });
-
-    // $(".fixed-slider").on("click", function(e){
-    //     console.log(e);
-    // });
 }
