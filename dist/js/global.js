@@ -9610,7 +9610,7 @@ function fixedSlider() {
 
         startPoint = sectionOffsetTop - neededOffset;
 
-        padding = scrollSize - sliderHeight - window.innerWidth;
+        padding = scrollSize;
 
         $(spacer).css({ "padding-bottom": padding, "height": sliderHeight, "min-height": sliderHeight });
     }
@@ -9621,14 +9621,14 @@ function fixedSlider() {
         spacerHeight = $(spacer).innerHeight();
         timeToMove = sectionOffsetTop + spacerHeight - (sliderHeight + neededOffset);
 
-        console.log(windowTop, startPoint, timeToMove);
-        $(".slide").css("transform", "translate3d(" + -1 * (windowTop - (section[0].getBoundingClientRect().y + neededOffset)) + "px, 0, 0)");
-
         if (windowTop < startPoint) {
+
             slider.removeClass("on-view").css({ "top": "auto", "position": "relative" });
             spacer.css({ "padding-top": 0, "padding-bottom": padding });
         } else {
+
             spacer.css({ "padding-bottom": 0, "padding-top": padding });
+            $(".slide").css("transform", "translate3d(" + -1 * (windowTop - startPoint) + "px, 0, 0)");
 
             if (windowTop < timeToMove) {
                 slider.addClass("on-view").css({ "top": neededOffset, "position": "fixed" });
