@@ -1,81 +1,85 @@
 export function fixedSlider() {
-        let section = $(".slider-section");
-        let spacer = $(".spacer");
-        let slider = $(".fixed-slider");
-        let slides = $(slider).find(".slide");
+    let section = $(".slider-section");
+    let spacer = $(".spacer");
+    let slider = $(".fixed-slider");
+    let slides = $(slider).find(".slide");
 
-        let startPoint = 0;
-        let sliderHeight = 0;
-        let spacerHeight = 0;
-        let sectionOffsetTop = 0;
-        let neededOffset = 0;
-        let timeToMove = 0;
-        let padding = 0;
-        let slidesOffset = 0;
+    let startPoint = 0;
+    let sliderHeight = 0;
+    let spacerHeight = 0;
+    let sectionOffsetTop = 0;
+    let neededOffset = 0;
+    let timeToMove = 0;
+    let padding = 0;
+    let slidesOffset = 0;
 
-        function calcSlider(section, slider, spacer) {
-            let currentSlides = $(slider).find(".slide");
-            let scrollSize = 0;
+    function calcSlider(section, slider, spacer) {
+        let currentSlides = $(slider).find(".slide");
+        let scrollSize = 0;
 
-            slidesOffset = window.innerHeight * 0.5;
+        slidesOffset = window.innerHeight * 0.5;
 
-            currentSlides.each( function () {
-                scrollSize += $(this).outerWidth(true);
-            });
+        currentSlides.each(function () {
+            scrollSize += $(this).outerWidth(true);
+        });
 
-            sliderHeight = $(slider).innerHeight();
+        sliderHeight = $(slider).innerHeight();
 
-            sectionOffsetTop = $(section).offset().top;
+        sectionOffsetTop = $(section).offset().top;
 
-            neededOffset = (window.innerHeight - sliderHeight) / 2;
+        neededOffset = (window.innerHeight - sliderHeight) / 2;
 
-            startPoint = sectionOffsetTop - neededOffset;
+        startPoint = sectionOffsetTop - neededOffset;
 
-            padding = scrollSize - slidesOffset;
+        padding = scrollSize - slidesOffset;
 
-            $(spacer).css({"padding-bottom" : padding, "height" : sliderHeight, "min-height" : sliderHeight});
+        $(spacer).css({
+            "padding-bottom": padding,
+            "height": sliderHeight,
+            "min-height": sliderHeight
+        });
+    }
+
+    function setSlider() {
+        let windowTop = $(window).scrollTop();
+
+        spacerHeight = $(spacer).innerHeight();
+        timeToMove = (sectionOffsetTop + spacerHeight) - (sliderHeight + neededOffset);
+
+        if (windowTop > (startPoint - slidesOffset)) {
+            slides.css("transform", "translate3d(" + (-1 * ((windowTop + slidesOffset) - startPoint)) + "px, 0, 0)");
+        } else {
+            slides.css("transform", "translate3d(" + 0 + "px, 0, 0)");
         }
 
-        function setSlider(){
-            let windowTop = $(window).scrollTop();
+        if (windowTop < startPoint) {
 
-            spacerHeight = $(spacer).innerHeight();
-            timeToMove = (sectionOffsetTop + spacerHeight) - (sliderHeight + neededOffset);
+            slider.css({"top": "auto", "position": "relative"});
+            spacer.css({"padding-top": 0, "padding-bottom": padding});
 
-            if(windowTop > (startPoint - slidesOffset)){
-                slides.css("transform", "translate3d(" + (-1 * ((windowTop+slidesOffset) - startPoint)) + "px, 0, 0)");
+        } else {
+
+            spacer.css({"padding-bottom": 0, "padding-top": padding});
+
+            if (windowTop < timeToMove) {
+                slider.css({"top": neededOffset, "position": "fixed"});
             } else {
-                slides.css("transform", "translate3d("+ 0 +"px, 0, 0)");
-            }
-
-            if (windowTop < startPoint) {
-
-                slider.css({"top" : "auto", "position" : "relative"});
-                spacer.css({"padding-top" : 0, "padding-bottom" : padding});
-
-            } else {
-
-                spacer.css({"padding-bottom" : 0, "padding-top" : padding});
-
-                if (windowTop < timeToMove) {
-                    slider.css({"top": neededOffset, "position": "fixed"});
-                } else {
-                    slider.css({"top" : "auto", "position" : "relative"});
-                }
+                slider.css({"top": "auto", "position": "relative"});
             }
         }
+    }
 
+    calcSlider(section, slider, spacer);
+    setSlider();
+
+    $(window).on("ready resize", function () {
         calcSlider(section, slider, spacer);
         setSlider();
+    });
 
-        $(window).on("ready resize", function () {
-            calcSlider(section, slider, spacer);
-            setSlider();
-        });
-
-        $(window).on("scroll", function () {
-            setSlider();
-        });
+    $(window).on("scroll", function () {
+        setSlider();
+    });
 }
 
 

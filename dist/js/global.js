@@ -9615,7 +9615,11 @@ function fixedSlider() {
 
         padding = scrollSize - slidesOffset;
 
-        $(spacer).css({ "padding-bottom": padding, "height": sliderHeight, "min-height": sliderHeight });
+        $(spacer).css({
+            "padding-bottom": padding,
+            "height": sliderHeight,
+            "min-height": sliderHeight
+        });
     }
 
     function setSlider() {
